@@ -130,7 +130,6 @@ function createMap(earthquakes) {
     var div = L.DomUtil.create('div', 'info legend')
 
     div.innerHTML = "<h3>Magnitude Legend</h3><table><tr><th>>= 4</th><td>Red</td></tr><tr><th>>= 3</th><td>Orange</td></tr><tr><th>>= 2</th><td>Yellow</td></tr><tr><th>< 2</th><td>Green</td></tr></table>";
-
     return div;
   };
 
