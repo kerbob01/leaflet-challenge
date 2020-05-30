@@ -85,12 +85,6 @@ function addPopup(feature, layer) {
     return layer.bindPopup(`<h3> ${feature.properties.place} </h3> <hr> <h4>Magnitude: ${feature.properties.mag} </h4> <p> ${Date(feature.properties.time)} </p>`);
 }
 
-// marker.on('mouseover', function (addPopup) {
-//     this.openPopup();
-// });
-// marker.on('mouseout', function (e) {
-//     this.closePopup();
-// });
 
 // function to receive a layer of markers and plot them on a map.
 function createMap(earthquakes) {
