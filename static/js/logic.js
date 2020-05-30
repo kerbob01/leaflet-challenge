@@ -54,6 +54,7 @@ d3.json(usgsUrl, function (data) {
 
 var faultline = new L.LayerGroup();
 
+
 d3.json(plate_url, function (geoJson) {
   L.geoJSON(geoJson.features, {
     style: function () {
