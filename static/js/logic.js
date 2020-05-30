@@ -5,7 +5,7 @@ var plate_url = "https://raw.githubusercontent.com/fraxen/tectonicplates/master/
 
 // function to determine marker size based on magnitude
 function markerSize(magnitude) {
-    return magnitude * 5;
+  return magnitude * 5;
 }
 
 // function to return the color based on magnitude
@@ -41,14 +41,14 @@ function markerOpacity(magnitude) {
 }
 
 // GET request, and function to handle returned JSON data
-d3.json(usgsUrl, function(data) {
-  
+d3.json(usgsUrl, function (data) {
+
   var earthquakes = L.geoJSON(data.features, {
-    onEachFeature : addPopup,
+    onEachFeature: addPopup,
     pointToLayer: addMarker
   });
 
-// call function to create map
+  // call function to create map
   createMap(earthquakes);
 
 });
@@ -56,14 +56,14 @@ d3.json(usgsUrl, function(data) {
 var faultline = new L.LayerGroup();
 
 d3.json(plate_url, function (geoJson) {
-    L.geoJSON(geoJson.features, {
-        style: function () {
-            return {
-                weight: 4,
-                color: 'blue'
-            }
-        },
-    }).addTo(faultline);
+  L.geoJSON(geoJson.features, {
+    style: function () {
+      return {
+        weight: 4,
+        color: 'blue'
+      }
+    },
+  }).addTo(faultline);
 })
 
 function addMarker(feature, location) {
@@ -81,66 +81,66 @@ function addMarker(feature, location) {
 
 // Define a function we want to run once for each feature in the features array
 function addPopup(feature, layer) {
-    // Give each feature a popup describing the place and time of the earthquake
-    return layer.bindPopup(`<h3> ${feature.properties.place} </h3> <hr> <h4>Magnitude: ${feature.properties.mag} </h4> <p> ${Date(feature.properties.time)} </p>`);
+  // Give each feature a popup describing the place and time of the earthquake
+  return layer.bindPopup(`<h3> ${feature.properties.place} </h3> <hr> <h4>Magnitude: ${feature.properties.mag} </h4> <p> ${Date(feature.properties.time)} </p>`);
 }
 
 
 // function to receive a layer of markers and plot them on a map.
 function createMap(earthquakes) {
 
-    // Define streetmap and darkmap layers
-    var streetmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-      maxZoom: 18,
-      id: "mapbox.streets",
-      accessToken: API_KEY
-    });
-  
-    var darkmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
-      maxZoom: 18,
-      id: "mapbox.dark",
-      accessToken: API_KEY
-    });
-  
-    // Define a baseMaps object to hold our base layers
-    var baseMaps = {
-      "Street Map": streetmap,
-      "Dark Map": darkmap
-    };
-  
-    // Create overlay object to hold our overlay layer
-    var overlayMaps = {
-      "Earthquakes": earthquakes,
-      "FaultLines": faultline
-    };
-  
-    // Create our map, giving it the streetmap and earthquakes layers to display on load
-    var myMap = L.map("map", {
-      center: [37.09, -95.71],
-      zoom: 5,
-      layers: [streetmap, earthquakes, faultline]
-    });
-  
-    // creating the legend
-    var legend = L.control({position: 'bottomright'});
+  // Define streetmap and darkmap layers
+  var streetmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+    maxZoom: 18,
+    id: "mapbox.streets",
+    accessToken: API_KEY
+  });
 
-    // add legend to map
-    legend.onAdd = function () {
-    
-        var div = L.DomUtil.create('div', 'info legend')
-        
-        div.innerHTML = "<h3>Magnitude Legend</h3><table><tr><th>>= 4</th><td>Red</td></tr><tr><th>>= 3</th><td>Orange</td></tr><tr><th>>= 2</th><td>Yellow</td></tr><tr><th>< 2</th><td>Green</td></tr></table>";
+  var darkmap = L.tileLayer("https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token={accessToken}", {
+    maxZoom: 18,
+    id: "mapbox.dark",
+    accessToken: API_KEY
+  });
 
-        return div;
-    };
-    
-    legend.addTo(myMap);
+  // Define a baseMaps object to hold our base layers
+  var baseMaps = {
+    "Street Map": streetmap,
+    "Dark Map": darkmap
+  };
 
-    // Create a layer control
-    // Pass in our baseMaps and overlayMaps
-    // Add the layer control to the map
-    L.control.layers(baseMaps, overlayMaps, {
-      collapsed: false
-    }).addTo(myMap);
+  // Create overlay object to hold our overlay layer
+  var overlayMaps = {
+    "Earthquakes": earthquakes,
+    "FaultLines": faultline
+  };
 
-  }
+  // Create our map, giving it the streetmap and earthquakes layers to display on load
+  var myMap = L.map("map", {
+    center: [37.09, -95.71],
+    zoom: 5,
+    layers: [streetmap, earthquakes, faultline]
+  });
+
+  // creating the legend
+  var legend = L.control({ position: 'bottomright' });
+
+  // add legend to map
+  legend.onAdd = function () {
+
+    var div = L.DomUtil.create('div', 'info legend')
+
+    div.innerHTML = "<h3>Magnitude Legend</h3><table><tr><th>>= 4</th><td>Red</td></tr><tr><th>>= 3</th><td>Orange</td></tr><tr><th>>= 2</th><td>Yellow</td></tr><tr><th>< 2</th><td>Green</td></tr></table>";
+
+    return div;
+  };
+
+  legend.addTo(myMap);
+
+  // Create a layer control
+  // Pass in our baseMaps and overlayMaps
+  // Add the layer control to the map
+  L.control.layers(baseMaps, overlayMaps, {
+    collapsed: false
+  }).addTo(myMap);
+
+}
