@@ -42,7 +42,6 @@ function markerOpacity(magnitude) {
 
 // GET request, and function to handle returned JSON data
 d3.json(usgsUrl, function (data) {
-
   var earthquakes = L.geoJSON(data.features, {
     onEachFeature: addPopup,
     pointToLayer: addMarker
